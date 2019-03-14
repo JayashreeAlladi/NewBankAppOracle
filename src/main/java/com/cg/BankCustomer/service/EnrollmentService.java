@@ -4,5 +4,5 @@ import com.cg.BankCustomer.Bean.CustomerDetails;
 
 public interface EnrollmentService {
         public long register(CustomerDetails customerDetails);
-        public CustomerDetails login(long account_no);
+        public CustomerDetails login(CustomerDetails customerDetails);
 }

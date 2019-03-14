@@ -14,10 +14,11 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		
 	}
 
-	public CustomerDetails login(long account_no) {
+	public CustomerDetails login(CustomerDetails customerDetails) {
 		
 		// TODO Auto-generated method stub
-		return null;
+		enrollmentDao.login(customerDetails);
+		return customerDetails;
 	}
 
 }

@@ -18,7 +18,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		
 		Connection connection=databaseOConnection.connect();
 		try {
-			PreparedStatement preparedStatement=connection.prepareStatement("insert into Customer_Details values(account_no.nextval,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement preparedStatement=connection.prepareStatement("insert into Customer_Details values(account_no.nextval,?,?,?,?,?,?,?,?,?,?)");
 		    preparedStatement.setString(1, customerDetails.getFirstName());
 		    preparedStatement.setString(2, customerDetails.getLastName());
 		    preparedStatement.setString(3, customerDetails.getEmailId());
@@ -28,7 +28,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		    preparedStatement.setString(7, customerDetails.getAddress());
 		    preparedStatement.setLong(8, customerDetails.getMobileNo());
 		    preparedStatement.setDouble(9, customerDetails.getBalance());
-		    
+		    preparedStatement.setDouble(10, customerDetails.getAmount());
 		    int i=preparedStatement.executeUpdate();
 			if (i==1) {
 				System.out.println("Registered successfully with account number"+customerDetails.getAccountNo());
@@ -45,7 +45,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		return customerDetails.getAccountNo();
 	}
 
-	public CustomerDetails login(long account_no) {
+	public CustomerDetails login(CustomerDetails customerDetails) {
 		// TODO Auto-generated method stub
 		Connection connection=databaseOConnection.connect();
 		
