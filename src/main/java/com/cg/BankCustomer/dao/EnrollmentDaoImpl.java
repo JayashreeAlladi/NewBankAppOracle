@@ -15,11 +15,13 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
    CustomerDetails customerDetails=new CustomerDetails();
    DatabaseOConnection databaseOConnection=new DatabaseOConnection();
 	public long register(CustomerDetails customerDetails) {
-		
+		 long accountNo=0;
 		Connection connection=databaseOConnection.connect();
 		try {
-			PreparedStatement preparedStatement=connection.prepareStatement("insert into Customer_Details values(account_no.nextval,?,?,?,?,?,?,?,?,?,?)");
-		    preparedStatement.setString(1, customerDetails.getFirstName());
+			
+			PreparedStatement preparedStatement=connection.prepareStatement("insert into customer_details values(account_seq.nextval,?,?,?,?,?,?,?,?,?)");
+		   
+			preparedStatement.setString(1, customerDetails.getFirstName());
 		    preparedStatement.setString(2, customerDetails.getLastName());
 		    preparedStatement.setString(3, customerDetails.getEmailId());
 		    preparedStatement.setString(4, customerDetails.getPassword());
@@ -28,8 +30,20 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		    preparedStatement.setString(7, customerDetails.getAddress());
 		    preparedStatement.setLong(8, customerDetails.getMobileNo());
 		    preparedStatement.setDouble(9, customerDetails.getBalance());
-		    preparedStatement.setDouble(10, customerDetails.getAmount());
+		    //System.out.println("abc");
 		    int i=preparedStatement.executeUpdate();
+		    
+		    String selectSQL="select account_no from customer_details where aadhar_no=?";
+		    PreparedStatement preparedStatement2=connection.prepareStatement(selectSQL);
+		    preparedStatement2.setLong(1, customerDetails.getAadharNo());
+		    ResultSet rs=preparedStatement2.executeQuery();
+		   // preparedStatement2.setLong(1, customerDetails.getAadharNo());
+		    while(rs.next()) {
+		     accountNo=rs.getLong(1);
+		     customerDetails.setAccountNo(accountNo);
+		    }
+		    preparedStatement2.executeUpdate();
+		    
 			if (i==1) {
 				System.out.println("Registered successfully with account number"+customerDetails.getAccountNo());
 			} else {
@@ -42,7 +56,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		}
 
 		// TODO Auto-generated method stub
-		return customerDetails.getAccountNo();
+		return accountNo;
 	}
 
 	public CustomerDetails login(CustomerDetails customerDetails) {
@@ -50,17 +64,24 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		Connection connection=databaseOConnection.connect();
 		
 		Statement statement;
+		int count=0;
 		try {
 			statement = connection.createStatement();
 			ResultSet rs=statement.executeQuery("select * from Customer_Details");
 			while(rs.next())
 			{
 				
-				if(rs.getLong(9)==customerDetails.getAccountNo() && rs.getString(8).equals(customerDetails.getPassword()))
+				if(rs.getLong(1)==customerDetails.getAccountNo() && rs.getString(5).equals(customerDetails.getPassword()))
 				{
-			         
+			         count++;
 					break;
 				}
+				
+			}
+			if (count==1) {
+				System.out.println("Login successful");
+			} else {
+				System.err.println("Error Loging");
 				
 			}
 	    }catch (SQLException e) {

@@ -9,16 +9,24 @@ public class EnrollmentServiceImpl implements EnrollmentService{
      EnrollmentDao enrollmentDao=new EnrollmentDaoImpl();
 	public long register(CustomerDetails customerDetails) {
 		// TODO Auto-generated method stub
-		long account_no=enrollmentDao.register(customerDetails);
-		return account_no;
+		long accountNo=enrollmentDao.register(customerDetails);
 		
+		if(accountNo==0) {
+			try {
+				throw new NoAccountException();
+			} catch (NoAccountException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return accountNo;
 	}
 
 	public CustomerDetails login(CustomerDetails customerDetails) {
 		
 		// TODO Auto-generated method stub
-		enrollmentDao.login(customerDetails);
-		return customerDetails;
+		
+		return enrollmentDao.login(customerDetails);
 	}
 
 }

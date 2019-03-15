@@ -14,9 +14,11 @@ public class MainUI {
 	 static CustomerDetails customerDetails=new CustomerDetails();
 	 static TransactionDetails transactionDetails=new TransactionDetails();
 	 static EnrollmentService enrollment=new EnrollmentServiceImpl();
-	 static TransactionService transaction=  new TransactionServiceImpl();
+	
         public static void main(String[] args) {
+        	 TransactionService transactionService = new TransactionServiceImpl();
         	Scanner sc=new Scanner(System.in);
+        while(true) {	
         	System.out.println("=====Banking Application By Oracle=======");
         	System.out.println("1.Transaction\n 2.Enrollment \n3.Exit");
         	int choice=sc.nextInt();
@@ -34,24 +36,25 @@ public class MainUI {
         			  System.out.println("===deposit=== ");
         			 
       				System.out.println("Enter deposit amount");
-					customerDetails1.setAmount(sc.nextDouble());
-					customerDetails1 = transaction.deposit(customerDetails1);
+				     double amount1=sc.nextDouble();
+					customerDetails1 = transactionService.deposit(customerDetails1,amount1);
         			  
         			  break;
         			  
         		  case 2:
         			  System.out.println("===withdraw===");
         			  System.err.println(customerDetails1.getAccountNo());
-						System.out.println("Enter withdraw amount");							
-						customerDetails1.setAmount(sc.nextDouble());
-						customerDetails1 = transaction.withdraw(customerDetails);
+						System.out.println("Enter withdraw amount");
+						double amount=sc.nextDouble();
+						
+						customerDetails1 = transactionService.withdraw(customerDetails,amount);
 						System.out.println("Remaining balance: "+customerDetails1.getBalance());
           		      
           		      break;
           		      
         		  case 3:
         			  System.out.println("===Show Balance===");
-        			  customerDetails1 = transaction.showBalance(customerDetails);
+        			  customerDetails1 = transactionService.showBalance(customerDetails);
 						System.out.println("Your balance is: "+customerDetails1.getBalance());
           		      
           		      break;
@@ -59,24 +62,26 @@ public class MainUI {
         		  case 4:
         			  System.out.println("===Fund Transfer===");
         			  System.out.println("Enter the fund amount to transfer");
-					  customerDetails1.setAmount(sc.nextDouble());
+					  double amount2=sc.nextDouble();
 					  System.out.println("Enter the account number to which fund has to be transferred");
         			 // long accountNo=sc.nextLong();
         			  long AccountNo2=sc.nextLong();
         			  long previousAccount = customerDetails1.getAccountNo();
-						customerDetails1 = transaction.withdraw(customerDetails1);
-						customerDetails1.setAccountNo(AccountNo2);
-						customerDetails1 = transaction.deposit(customerDetails1);
+						customerDetails1 = transactionService.withdraw(customerDetails1,amount2);
 						customerDetails1.setAccountNo(previousAccount);
+						customerDetails1 = transactionService.deposit(customerDetails1,amount2);
+						customerDetails1.setAccountNo(AccountNo2);
 				//	transaction.fundTransfer(accountNo, AccountNo2);
 						transactionDetails.setFromAccountNo(previousAccount);
 						transactionDetails.setToAccountNo(AccountNo2);
-						transactionDetails.setAmountTransfered(customerDetails1.getAmount());
-						
+					//	transactionDetails.setAmountTransfered(customerDetails1.getAmount());
+					
+					
         		  }
         	  break;
         	case 2:
         	  System.out.println("======Enrollment phase======");
+        	  System.out.println("1.Registration\n 2.Login");
         	  int n1=sc.nextInt();
         		switch(n1) {
         		case 1:
@@ -113,9 +118,8 @@ public class MainUI {
         			 long mobileNo=sc.nextLong();
         			 customerDetails.setMobileNo(mobileNo);
         			 
-        			 System.out.println("enter balance");
-        			 double balance=sc.nextDouble();
-        			 customerDetails.setBalance(balance);
+        			 
+        			 customerDetails.setBalance(0);
         			 
         			 long accountNo= enrollment.register(customerDetails);
         			 break;
@@ -132,5 +136,6 @@ public class MainUI {
         		System.exit(0);
         		
         	}
-        }
+         }
+    }   
 }

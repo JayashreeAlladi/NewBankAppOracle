@@ -3,7 +3,7 @@ package com.cg.BankCustomer.Bean;
 public class CustomerDetails {
       private long accountNo,aadharNo,mobileNo;
       private String firstName,lastName,emailId,pancardNo,address,password;
-      private double balance,amount;
+      private double balance;
 	public long getAccountNo() {
 		return accountNo;
 	}
@@ -64,11 +64,6 @@ public class CustomerDetails {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	public double getAmount() {
-		return amount;
-	}
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
+	
       
 }

@@ -11,7 +11,7 @@ public class DatabaseOConnection {
 		Connection connection=null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			connection=DriverManager.getConnection("jdbc:oracle:thin:@localjost:1521:xe", "MYONLINEEDU","oracle123");
+			connection=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "MYONLINEEDU","oracle123");
 
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

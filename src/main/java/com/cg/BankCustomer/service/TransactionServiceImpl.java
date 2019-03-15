@@ -7,20 +7,13 @@ import com.cg.BankCustomer.Bean.TransactionDetails;
 import com.cg.BankCustomer.dao.TransactionDao;
 import com.cg.BankCustomer.dao.TransactionDaoImpl;
 
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements com.cg.BankCustomer.service.TransactionService{
     TransactionDao transactionDao=new TransactionDaoImpl();
-	public CustomerDetails deposit(CustomerDetails customerDetails) {
+	public CustomerDetails deposit(CustomerDetails customerDetails,double amount) {
 		
 		// TODO Auto-generated method stub
 		
-	 customerDetails=transactionDao.deposit(customerDetails);
-		return customerDetails;
-	}
-
-	public CustomerDetails withdraw(CustomerDetails customerDetails) {
-		
-		// TODO Auto-generated method stub
-		customerDetails=transactionDao.withdraw(customerDetails);
+	 customerDetails=transactionDao.deposit(customerDetails,amount);
 		return customerDetails;
 	}
 
@@ -35,6 +28,12 @@ public class TransactionServiceImpl implements TransactionService{
 		// TODO Auto-generated method stub
 		TransactionDetails transactionDetails=transactionDao.fundTransfer(fromAccountNo, toAccountNo);
 		return transactionDetails;
+	}
+
+	public CustomerDetails withdraw(CustomerDetails customerDetails, double amount) {
+		// TODO Auto-generated method stub
+		customerDetails=transactionDao.withdraw(customerDetails,amount);
+		return customerDetails;
 	}
 
 }
