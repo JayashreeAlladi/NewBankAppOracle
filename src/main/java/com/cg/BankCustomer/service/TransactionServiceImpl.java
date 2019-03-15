@@ -9,10 +9,10 @@ import com.cg.BankCustomer.dao.TransactionDaoImpl;
 
 public class TransactionServiceImpl implements com.cg.BankCustomer.service.TransactionService{
     TransactionDao transactionDao=new TransactionDaoImpl();
-	public CustomerDetails deposit(CustomerDetails customerDetails,double amount) {
+	
+    public CustomerDetails deposit(CustomerDetails customerDetails,double amount) {
 		
 		// TODO Auto-generated method stub
-		
 	 customerDetails=transactionDao.deposit(customerDetails,amount);
 		return customerDetails;
 	}

@@ -12,19 +12,18 @@ import com.cg.BankCustomer.utility.DatabaseOConnection;
 
 public class TransactionDaoImpl implements TransactionDao{
     DatabaseOConnection databaseOConnection=new DatabaseOConnection();
-  //  Connection connection=databaseOConnection.connect();
     TransactionDetails transactionDetails=new TransactionDetails();
     CustomerDetails customerDetails=new CustomerDetails();
-	public CustomerDetails withdraw(CustomerDetails customerDetails,double amount) {
+	
+    public CustomerDetails withdraw(CustomerDetails customerDetails,double amount) {
 		// TODO Auto-generated method stub
-		Statement statement;
 		try {
 			 Connection connection=databaseOConnection.connect();
-			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from CUSTOMER_DETAILS");
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from customer_details");
 			int count = 0;
 			while (rs.next()) {
-				if (rs.getInt(1) == customerDetails.getAccountNo()) {
+				if (rs.getLong(1) == customerDetails.getAccountNo()) {
 					double balance = customerDetails.getBalance();
 					if (balance >= amount) {
 						balance = balance-amount;
@@ -60,15 +59,15 @@ public class TransactionDaoImpl implements TransactionDao{
 		// TODO Auto-generated method stub
 		double balance = customerDetails.getBalance();
 		balance =balance+amount;
-		customerDetails.setBalance(balance);
+		//customerDetails.setBalance(balance);
 		 Connection connection=databaseOConnection.connect();
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement("update customer_details set balance = ? where account_no = ?");
-			preparedStatement.setDouble(1, customerDetails.getBalance());
-			preparedStatement.setLong(2, customerDetails.getAccountNo());
-			int i=preparedStatement.executeUpdate();
-			//System.out.println("my balance is:"+balance);
-			if(i==1) {
+			PreparedStatement ps = connection.prepareStatement("update customer_details set balance= ? where account_no=?");
+			ps.setDouble(1, balance);
+			ps.setLong(2, customerDetails.getAccountNo());
+			int x = ps.executeUpdate();
+		
+			if(x==1) {
 				System.out.println("updated successfully");
 			}
 			else
