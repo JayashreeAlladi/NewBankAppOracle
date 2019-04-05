@@ -37,7 +37,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao{
 		    PreparedStatement preparedStatement2=connection.prepareStatement(selectSQL);
 		    preparedStatement2.setLong(1, customerDetails.getAadharNo());
 		    ResultSet rs=preparedStatement2.executeQuery();
-		   // preparedStatement2.setLong(1, customerDetails.getAadharNo());
+		  
 		    while(rs.next()) {
 		     accountNo=rs.getLong(1);
 		     customerDetails.setAccountNo(accountNo);

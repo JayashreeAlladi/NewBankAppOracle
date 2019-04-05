@@ -26,14 +26,15 @@ public class TransactionDaoImpl implements TransactionDao{
 				if (rs.getLong(1) == customerDetails.getAccountNo()) {
 					double balance = customerDetails.getBalance();
 					if (balance >= amount) {
-						balance = balance-amount;
-						customerDetails.setBalance(balance);
+						
 						try {
 							PreparedStatement preparedStatement = connection.prepareStatement("update CUSTOMER_DETAILS set balance = ? where account_no = ?");
+							balance = balance-amount;
+							customerDetails.setBalance(balance);
 							preparedStatement.setDouble(1, customerDetails.getBalance());
 							preparedStatement.setLong(2, customerDetails.getAccountNo());
 							preparedStatement.executeUpdate();
-							customerDetails.setBalance(balance);
+							
 							count++;
 							break;
 						} catch (SQLException e) {
@@ -58,11 +59,14 @@ public class TransactionDaoImpl implements TransactionDao{
 	public CustomerDetails deposit(CustomerDetails customerDetails,double amount) {
 		// TODO Auto-generated method stub
 		double balance = customerDetails.getBalance();
-		balance =balance+amount;
-		//customerDetails.setBalance(balance);
+		//System.out.println(amount);
+		
 		 Connection connection=databaseOConnection.connect();
 		try {
 			PreparedStatement ps = connection.prepareStatement("update customer_details set balance= ? where account_no=?");
+			balance =balance+amount;
+			customerDetails.setBalance(balance);
+		 //	System.out.println("my account num is : "+customerDetails.getAccountNo());
 			ps.setDouble(1, balance);
 			ps.setLong(2, customerDetails.getAccountNo());
 			int x = ps.executeUpdate();
@@ -81,14 +85,16 @@ public class TransactionDaoImpl implements TransactionDao{
 
 	public CustomerDetails showBalance(CustomerDetails customerDetails) {
 		// TODO Auto-generated method stub
+		//System.out.println("balance before connecting to db.."+customerDetails.getBalance());
 		 Connection connection=databaseOConnection.connect();
 		ResultSet resultSet;
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement("select balance from CUSTOMER_DETAILS where account_no = ?");
+			PreparedStatement preparedStatement = connection.prepareStatement("select * from CUSTOMER_DETAILS where account_no = ?");
+			
 			preparedStatement.setLong(1,customerDetails.getAccountNo());
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
-			customerDetails.setBalance(resultSet.getInt(10));
+			customerDetails.setBalance(resultSet.getDouble(10));
 			connection.close();
 		} catch (SQLException e) {
 		}

@@ -60,7 +60,7 @@ public class MainUI {
  			 customerDetails.setMobileNo(mobileNo);
  			 
  			 
- 			 customerDetails.setBalance(0);
+ 			customerDetails.setBalance(0);
  			 
  			 long accountNo= enrollment.register(customerDetails);
  			 break;
@@ -80,50 +80,55 @@ public class MainUI {
         	  System.out.println("=================Transaction phase=============");
         	  System.out.println("1.deposit\n 2.withdraw \n3.showbalance\n 4.fund transfer \n5.exit");
         	  int n1=sc.nextInt();
-        	  CustomerDetails customerDetails1=new CustomerDetails();
+             //  customerDetails=new CustomerDetails();
         		switch(n1) {
         		case 1:
       			  System.out.println("===deposit=== ");
     				System.out.println("Enter deposit amount");
 				     double amount1=sc.nextDouble();
-					customerDetails1 = transactionService.deposit(customerDetails1,amount1);
+					customerDetails = transactionService.deposit(customerDetails,amount1);
       			  
       			  break;
       			  
       		  case 2:
       			  System.out.println("===withdraw===");
-      			  System.err.println(customerDetails1.getAccountNo());
+      			 // System.err.println(customerDetails.getAccountNo());
 						System.out.println("Enter withdraw amount");
 						double amount=sc.nextDouble();
 						
-						customerDetails1 = transactionService.withdraw(customerDetails,amount);
-						System.out.println("Remaining balance: "+customerDetails1.getBalance());
+						customerDetails = transactionService.withdraw(customerDetails,amount);
+						System.out.println("Remaining balance: "+customerDetails.getBalance());
         		      
         		      break;
         		      
       		  case 3:
       			  System.out.println("===Show Balance===");
-      			  customerDetails1 = transactionService.showBalance(customerDetails);
-						System.out.println("Your balance is: "+customerDetails1.getBalance());
+      			  customerDetails= transactionService.showBalance(customerDetails);
+						System.out.println("Your balance is: "+customerDetails.getBalance());
         		      
         		      break;
         		      
       		  case 4:
       			  System.out.println("===Fund Transfer===");
+      			 System.out.println("Enter the account number to which fund has to be transferred");
+     			  long AccountNo2=sc.nextLong();
+     			 
       			  System.out.println("Enter the fund amount to transfer");
-					  double amount2=sc.nextDouble();
-					  System.out.println("Enter the account number to which fund has to be transferred");
-      			 // long accountNo=sc.nextLong();
-      			  long AccountNo2=sc.nextLong();
-      			  long previousAccount = customerDetails1.getAccountNo();
-						customerDetails1 = transactionService.withdraw(customerDetails1,amount2);
-						customerDetails1.setAccountNo(previousAccount);
-						customerDetails1 = transactionService.deposit(customerDetails1,amount2);
-						customerDetails1.setAccountNo(AccountNo2);
-				//	transaction.fundTransfer(accountNo, AccountNo2);
+				  double amount2=sc.nextDouble();
+				  transactionDetails.setAmountTransfered(amount2);  
+							  
+      			  long previousAccount = customerDetails.getAccountNo();
+						customerDetails = transactionService.withdraw(customerDetails,amount2);
+						customerDetails.setAccountNo(AccountNo2);
+						customerDetails = transactionService.deposit(customerDetails,amount2);
+						
+			
 						transactionDetails.setFromAccountNo(previousAccount);
 						transactionDetails.setToAccountNo(AccountNo2);
-					//	transactionDetails.setAmountTransfered(customerDetails1.getAmount());
+						transactionService.fundTransfer(previousAccount, AccountNo2);
+					//since you have to be in your account, we set account to previous account
+						customerDetails.setAccountNo(previousAccount);
+						break;
       		  case 5:
       			  System.exit(0);
         		}
