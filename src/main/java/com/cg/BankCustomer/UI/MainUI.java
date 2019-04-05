@@ -119,8 +119,9 @@ public class MainUI {
 							  
       			  long previousAccount = customerDetails.getAccountNo();
 						customerDetails = transactionService.withdraw(customerDetails,amount2);
-						customerDetails.setAccountNo(AccountNo2);
-						customerDetails = transactionService.deposit(customerDetails,amount2);
+						CustomerDetails customerDetails2=new CustomerDetails();
+						customerDetails2.setAccountNo(AccountNo2);
+						customerDetails2= transactionService.deposit(customerDetails2,amount2);
 						
 			
 						transactionDetails.setFromAccountNo(previousAccount);

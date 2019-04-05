@@ -59,7 +59,7 @@ public class TransactionDaoImpl implements TransactionDao{
 	public CustomerDetails deposit(CustomerDetails customerDetails,double amount) {
 		// TODO Auto-generated method stub
 		double balance = customerDetails.getBalance();
-		//System.out.println(amount);
+		System.out.println(amount);
 		
 		 Connection connection=databaseOConnection.connect();
 		try {
